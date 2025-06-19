@@ -1,4 +1,4 @@
-version: "3.9"
+version: "2.4"
 
 services:
   # nginx:
@@ -30,10 +30,14 @@ services:
     build : ./requirements/mariadb
     container_name : mariadb
     env_file: ./.env
-    enviroment:
-      - MARIADB_ROOT_PASSWORD = ${MARIADB_ROOT_PASSWORD} # a psdd
-      - DB_HOST = ${DB_HOST}
-      - DB_CONF = ${DB_CONF}
+    environment:
+      - DB_NAME=${DB_NAME}
+      - DB_INSTALL=${DB_INSTALL}
+      - DB_PASS=${DB_PASS}
+      - DB_USER=${DB_USER}
+      - DB_ROOT_PASS=${DB_ROOT_PASS} # a psdd
+      - DB_HOST=${DB_HOST}
+      - DB_CONF=${DB_CONF}
     expose: 
       - "3306"
     volumes:
@@ -46,6 +50,15 @@ networks:
     name: inception # lets try to run the compose without the name and check the name it will give
 
 volumes:
+  mariadb_data:
+    name: mariadb_data
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: bind
+      device: '/home/mafaisal/data/mariadb_data'
+    
+
   # wordpress:
   #   name: wordpress
   #   driver: local
@@ -55,10 +68,3 @@ volumes:
   #     device: "/home/${USER}/data/wordpress"
 
   
-  mariadb_data:
-    name: mariadb_data
-    driver: local
-    driver_opt:
-      type: 'none'
-      o: bind
-      device: "/home/data/mariadb_data"
