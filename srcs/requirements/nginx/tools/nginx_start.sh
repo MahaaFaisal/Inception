@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-source .env # we load the .env file
+# source .env # we load the .env file
 
 # mkdir $CERT_DIR # should we add this in the env?
+mkdir -p $CERT_DIR
 
 openssl req -x509 -newkey rsa:2048 -days 365 -nodes \
 		-keyout $CERT_KEY \

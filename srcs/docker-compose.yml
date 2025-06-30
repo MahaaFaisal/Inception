@@ -1,21 +1,21 @@
 version: "2.4"
 
 services:
-  # nginx:
-  #   build: ./requirements/nginx
-  #   container_name: nginx
-  #   env_file: ./.env
-  #   ports:
-  #     - "443:443"
-  #   volumes:
-  #     - wordpress:/var/www/html/wordpress # This lets NGINX serve static WP files.
-  #   networks:
-  #     - web
-  #   depends on:
-  #     - wordpress
-  #   restart : always # seems like not a good practice maybe we should do a health-check or something?
+  nginx:
+    build: ./requirements/nginx
+    container_name: nginx
+    env_file: ./.env
+    ports:
+      - "443:443"
+    volumes:
+      - wordpress:/var/www/html/wordpress # This lets NGINX serve static WP files.
+    networks:
+      - web
+    depends_on:
+      - wordpress
+    restart : always # seems like not a good practice maybe we should do a health-check or something?
 
-  worpress:
+  wordpress:
     build : ./requirements/wordpress
     container_name : wordpress
     env_file : ./.env
