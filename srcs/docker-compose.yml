@@ -4,7 +4,9 @@ services:
   nginx:
     build: ./requirements/nginx
     container_name: nginx
-    env_file: ./.env
+    env_file :
+      - ./.env
+      - ../secrets/nginx.secrets
     ports:
       - "443:443"
     volumes:
@@ -18,7 +20,9 @@ services:
   wordpress:
     build : ./requirements/wordpress
     container_name : wordpress
-    env_file : ./.env
+    env_file :
+      - ./.env
+      - ../secrets/wp.secrets
     expose:
       - "9000" # Exposes PHP-FPM service (e.g., WordPress runs at port 9000 internally).
     volumes:
@@ -29,7 +33,9 @@ services:
   mariadb:
     build : ./requirements/mariadb
     container_name : mariadb
-    env_file: ./.env
+    env_file :
+      - ./.env
+      - ../secrets/db.secrets
     expose: 
       - "3306"
     volumes:
