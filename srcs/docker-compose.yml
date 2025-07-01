@@ -1,4 +1,4 @@
-version: "2.4"
+version: "3.9"
 
 services:
   nginx:
@@ -6,27 +6,25 @@ services:
     container_name: nginx
     env_file :
       - ./.env
-      - ../secrets/nginx.secrets
     ports:
       - "443:443"
     volumes:
-      - wordpress:/var/www/html/wordpress # This lets NGINX serve static WP files.
+      - wordpress:/var/www/html/wordpress
     networks:
       - web
     depends_on:
       - wordpress
-    restart : always # seems like not a good practice maybe we should do a health-check or something?
+    restart : always
 
   wordpress:
     build : ./requirements/wordpress
     container_name : wordpress
     env_file :
       - ./.env
-      - ../secrets/wp.secrets
     expose:
-      - "9000" # Exposes PHP-FPM service (e.g., WordPress runs at port 9000 internally).
+      - "9000"
     volumes:
-      - wordpress:/var/www/html/wordpress # The WordPress container generates dynamic content stored here
+      - wordpress:/var/www/html/wordpress
     networks:
       - web
 
@@ -35,7 +33,6 @@ services:
     container_name : mariadb
     env_file :
       - ./.env
-      - ../secrets/db.secrets
     expose: 
       - "3306"
     volumes:
@@ -45,7 +42,7 @@ services:
 
 networks:
   web:
-    name: inception # lets try to run the compose without the name and check the name it will give
+    name: inception
 
 volumes:
   mariadb_data:
